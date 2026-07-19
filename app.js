@@ -149,25 +149,33 @@ function checkAdminAccess() {
     const isAdminDomain = window.location.hostname.includes("admin") || new URLSearchParams(window.location.search).has("admin");
     const isAdminLoggedIn = sessionStorage.getItem("admin_logged_in") === "true";
 
-    if (isAdminDomain) {
-        // We are on the admin domain
-        if (isAdminLoggedIn) {
-            // Already logged in
-            if (adminLoginOverlay) adminLoginOverlay.classList.remove("active");
-            if (openDashboardBtn) openDashboardBtn.style.display = "inline-flex";
-            if (mobileOpenDashboardBtn) mobileOpenDashboardBtn.style.display = "inline-flex";
-        } else {
-            // Not logged in, block view and show login popup
-            if (adminLoginOverlay) adminLoginOverlay.classList.add("active");
-            if (openDashboardBtn) openDashboardBtn.style.display = "none";
-            if (mobileOpenDashboardBtn) mobileOpenDashboardBtn.style.display = "none";
+    if (openDashboardBtn) openDashboardBtn.style.display = "inline-flex";
+    if (mobileOpenDashboardBtn) mobileOpenDashboardBtn.style.display = "inline-flex";
+
+    if (isAdminLoggedIn) {
+        if (adminLoginOverlay) adminLoginOverlay.classList.remove("active");
+        if (openDashboardBtn) {
+            openDashboardBtn.innerHTML = '<i data-lucide="sliders"></i><span>Dashboard</span>';
+        }
+        if (mobileOpenDashboardBtn) {
+            mobileOpenDashboardBtn.innerHTML = '<i data-lucide="sliders"></i><span>Dashboard</span>';
         }
     } else {
-        // Regular visitor domain
-        if (adminLoginOverlay) adminLoginOverlay.classList.remove("active");
-        if (openDashboardBtn) openDashboardBtn.style.display = "none";
-        if (mobileOpenDashboardBtn) mobileOpenDashboardBtn.style.display = "none";
+        if (openDashboardBtn) {
+            openDashboardBtn.innerHTML = '<i data-lucide="lock"></i><span>Masuk</span>';
+        }
+        if (mobileOpenDashboardBtn) {
+            mobileOpenDashboardBtn.innerHTML = '<i data-lucide="lock"></i><span>Masuk</span>';
+        }
+        
+        if (isAdminDomain) {
+            if (adminLoginOverlay) adminLoginOverlay.classList.add("active");
+        } else {
+            if (adminLoginOverlay) adminLoginOverlay.classList.remove("active");
+        }
     }
+
+    if (window.lucide) window.lucide.createIcons();
 }
 
 function handleAdminLogin(e) {
@@ -1404,13 +1412,32 @@ function initEventListeners() {
     const mobileCloseDashboardBtn = document.getElementById("mobileCloseDashboardBtn");
     const dashboardOverlay = document.getElementById("dashboardOverlay");
 
-    if (openDashboardBtn) openDashboardBtn.addEventListener("click", openDashboard);
+    const handleDashboardBtnClick = () => {
+        const isAdminLoggedIn = sessionStorage.getItem("admin_logged_in") === "true";
+        if (isAdminLoggedIn) {
+            openDashboard();
+        } else {
+            const adminLoginOverlay = document.getElementById("adminLoginOverlay");
+            if (adminLoginOverlay) adminLoginOverlay.classList.add("active");
+        }
+    };
+
+    if (openDashboardBtn) openDashboardBtn.addEventListener("click", handleDashboardBtnClick);
     if (mobileOpenDashboardBtn) {
         mobileOpenDashboardBtn.addEventListener("click", () => {
             closeMobileDrawer();
-            openDashboard();
+            handleDashboardBtnClick();
         });
     }
+
+    const closeAdminLoginBtn = document.getElementById("closeAdminLoginBtn");
+    if (closeAdminLoginBtn) {
+        closeAdminLoginBtn.addEventListener("click", () => {
+            const adminLoginOverlay = document.getElementById("adminLoginOverlay");
+            if (adminLoginOverlay) adminLoginOverlay.classList.remove("active");
+        });
+    }
+
     if (closeDashboardBtn) closeDashboardBtn.addEventListener("click", closeDashboard);
     if (mobileCloseDashboardBtn) mobileCloseDashboardBtn.addEventListener("click", closeDashboard);
     

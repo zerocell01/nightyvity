@@ -1613,6 +1613,26 @@ code {
     font-size: 0.85rem;
     color: var(--text-muted);
 }
+.login-close-btn {
+    position: absolute;
+    top: -1.25rem;
+    right: -1.25rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.login-close-btn:hover {
+    color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
 .login-error {
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.2);
