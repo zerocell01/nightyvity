@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nightyvity - Danang Cruel Story</title>
+    <meta name="description" content="Danang Cruel Story - Luka Yang Dituliskan. Kumpulan cerita, pemikiran, dan catatan pribadi dari nightyvity.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=11">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Background Elements for Glassmorphism -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- Navigation Header -->
+    <header class="app-header" id="mainHeader">
+        <div class="header-container">
+            <a href="#" class="app-logo" id="logoLink">
+                <span class="logo-accent">nighty</span>vity
+            </a>
+            
+            <!-- Desktop Navigation Menu -->
+            <nav class="desktop-nav" id="desktopNav">
+                <ul class="nav-list" id="desktopNavList">
+                    <!-- Loaded dynamically from JS -->
+                </ul>
+            </nav>
+
+            <!-- Actions Bar -->
+            <div class="header-actions">
+                <button class="btn-icon btn-theme-toggle" id="themePresetToggle" title="Ganti Tema Cepat" aria-label="Toggle Theme">
+                    <i data-lucide="sun"></i>
+                </button>
+                <button class="btn btn-primary btn-dashboard-toggle" id="openDashboardBtn">
+                    <i data-lucide="sliders"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="btn-icon mobile-menu-toggle" id="mobileMenuToggle" title="Menu" aria-label="Open Menu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
+    <aside class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <a href="#" class="app-logo">
+                <span class="logo-accent">nighty</span>vity
+            </a>
+            <button class="btn-icon" id="closeMobileDrawerBtn" title="Tutup Menu">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-list" id="mobileNavList">
+                <!-- Loaded dynamically from JS -->
+            </ul>
+        </nav>
+        <div class="drawer-footer">
+            <button class="btn btn-primary w-full" id="mobileOpenDashboardBtn">
+                <i data-lucide="sliders"></i>
+                <span>Dashboard</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Container -->
+    <main class="main-content">
+
+
+        <!-- Search & Filter Controls -->
+        <section class="filter-section">
+            <div class="blog-header-brand">
+                <h1 class="brand-title" id="heroTitle">Danang Cruel Story</h1>
+                <p class="brand-subtitle" id="heroSubtitle">Luka Yang di Tuliskan</p>
+            </div>
+            <div class="search-container">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Cari cerita berdasarkan judul, kategori, atau isi..." aria-label="Cari cerita">
+            </div>
+            <div class="category-filters-container">
+                <div class="category-filters" id="categoryFilters">
+                    <!-- Categories loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Posts Section -->
+        <section class="posts-section">
+            <div class="posts-grid" id="postsGrid">
+                <!-- Posts loaded dynamically from JS -->
+            </div>
+            <!-- Empty state -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i data-lucide="folder-open" class="empty-icon"></i>
+                <h3>Belum ada cerita</h3>
+                <p>Tidak ada cerita yang cocok dengan pencarian Anda atau belum ada cerita yang dibuat.</p>
+                <button class="btn btn-primary" id="emptyCreateBtn">
+                    <i data-lucide="plus"></i> Tulis Cerita Pertama
+                </button>
+            </div>
+        </section>
+        
+        <!-- About Author Section -->
+        <section class="about-section" id="aboutSection" style="display: none;"></section>
+    </main>
+
+    <!-- Article Reader View (Modal Style) -->
+    <div class="modal-overlay" id="articleReaderOverlay">
+        <article class="article-reader" id="articleReader">
+            <div class="reader-header-actions">
+                <button class="btn-icon btn-close-reader" id="closeReaderBtn" title="Kembali ke Beranda" aria-label="Close Reader">
+                    <i data-lucide="arrow-left"></i> <span>Kembali</span>
+                </button>
+            </div>
+            
+            <div class="reader-cover-container">
+                <img id="readerCoverImg" src="" alt="Cover cerita" class="reader-cover-img">
+            </div>
+            
+            <div class="reader-meta">
+                <span class="reader-category" id="readerCategory">Kategori</span>
+                <span class="reader-date" id="readerDate">Tanggal Rilis</span>
+            </div>
+
+            <h2 class="reader-title" id="readerTitle">Judul Cerita</h2>
+            
+            <div class="reader-content" id="readerContent">
+                <!-- Full article text -->
+            </div>
+
+            <div class="reader-tags" id="readerTags">
+                <!-- Tags rendered dynamically -->
+            </div>
+        </article>
+    </div>
+
+    <!-- Admin / Dashboard Modal -->
+    <div class="modal-overlay" id="dashboardOverlay">
+        <div class="dashboard-panel" id="dashboardPanel">
+            <!-- Dashboard Sidebar -->
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <h3>Pengaturan Blog</h3>
+                    <button class="btn-icon mobile-dashboard-close" id="mobileCloseDashboardBtn" title="Tutup Dashboard">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="sidebar-nav-btn active" data-tab="tab-articles" id="tabBtnArticles">
+                        <i data-lucide="book-open"></i>
+                        <span>Kelola Cerita</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="tab-menus" id="tabBtnMenus">
+                        <i data-lucide="menu"></i>
+                        <span>Kelola Menu</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="tab-author" id="tabBtnAuthor">
+                        <i data-lucide="user"></i>
+                        <span>Tentang Penulis</span>
+                    </button>
+                    <button class="sidebar-nav-btn" data-tab="tab-appearance" id="tabBtnAppearance">
+                        <i data-lucide="palette"></i>
+                        <span>Kustomisasi Tampilan</span>
+                    </button>
+                </nav>
+                <div class="sidebar-footer" style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
+                    <button class="btn btn-secondary w-full btn-sm" id="closeDashboardBtn">
+                        <i data-lucide="x"></i> Tutup Panel
+                    </button>
+                    <button class="btn btn-danger w-full btn-sm" id="adminLogoutBtn">
+                        <i data-lucide="log-out"></i> Keluar Admin
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Dashboard Content Areas -->
+            <main class="dashboard-body">
+                <!-- TAB: Kelola Cerita -->
+                <section class="dashboard-tab-content active" id="tab-articles">
+                    <div class="tab-header">
+                        <h2>Kelola Cerita</h2>
+                        <button class="btn btn-primary" id="btnCreatePost">
+                            <i data-lucide="plus"></i> Cerita Baru
+                        </button>
+                    </div>
+
+                    <div class="dashboard-table-container">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Cover & Judul</th>
+                                    <th>Kategori</th>
+                                    <th>Tanggal</th>
+                                    <th class="text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboardPostsList">
+                                <!-- Dynamic article list rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- TAB: Kelola Menu -->
+                <section class="dashboard-tab-content" id="tab-menus">
+                    <div class="tab-header">
+                        <h2>Kelola Menu Navigasi</h2>
+                    </div>
+                    
+                    <div class="menu-manager-grid">
+                        <!-- Add Menu Form -->
+                        <form class="glass-card menu-form" id="menuForm">
+                            <h3>Tambah Menu Baru</h3>
+                            <div class="form-group">
+                                <label for="menuLabel">Label Menu</label>
+                                <input type="text" id="menuLabel" placeholder="Contoh: Portofolio, Tentang Saya" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="menuUrl">Tautan Menu / ID Anchor</label>
+                                <input type="text" id="menuUrl" placeholder="Contoh: #tentang-saya atau https://link.com" required>
+                                <small>Gunakan <code>#nama-id</code> untuk tautan internal, atau URL penuh untuk eksternal.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full" id="btnAddMenuSubmit">
+                                <i data-lucide="plus"></i> Tambah ke Navigasi
+                            </button>
+                        </form>
+
+                        <!-- Menus List -->
+                        <div class="glass-card menu-list-container">
+                            <h3>Daftar Menu Saat Ini</h3>
+                            <div class="menu-list" id="menuList">
+                                <!-- Dynamic menu item rows -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: Tentang Penulis -->
+                <section class="dashboard-tab-content" id="tab-author">
+                    <div class="tab-header">
+                        <h2>Kelola Profil Penulis (About Me)</h2>
+                    </div>
+                    
+                    <form class="glass-card author-form" id="authorForm" style="max-width: 600px; margin: 0 auto;">
+                        <div class="form-group" style="text-align: center; margin-bottom: 1.5rem;">
+                            <label>Foto Profil Penulis</label>
+                            <div style="position: relative; width: 120px; height: 120px; margin: 0.75rem auto 1rem auto; border-radius: 50%; overflow: hidden; border: 2px solid var(--color-primary); background: #1e1b18;">
+                                <img id="authorPhotoPreview" src="assets/danang_profile.png" style="width:100%; height:100%; object-fit:cover;">
+                            </div>
+                            <input type="file" id="authorPhotoFile" accept="image/*" style="display: none;">
+                            <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('authorPhotoFile').click()">
+                                    <i data-lucide="upload"></i> Unggah Foto
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" id="btnRemoveAuthorPhoto" style="padding: 0.4rem 0.6rem;">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="authorName">Nama Penulis</label>
+                            <input type="text" id="authorName" placeholder="Contoh: Danang" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="authorTitle">Gelar / Keterangan Tanda Tangan</label>
+                            <input type="text" id="authorTitle" placeholder="Contoh: Sang Pengelana Kata" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="authorBio">Biografi Penulis (Dukungan HTML Sederhana)</label>
+                            <textarea id="authorBio" rows="6" placeholder="Tuliskan biografi Anda di sini..." required style="resize: vertical;"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-full">
+                            <i data-lucide="save"></i> Simpan Profil Penulis
+                        </button>
+                    </form>
+                </section>
+
+                <!-- TAB: Kustomisasi Tampilan -->
+                <section class="dashboard-tab-content" id="tab-appearance">
+                    <div class="tab-header">
+                        <h2>Kustomisasi Tampilan</h2>
+                    </div>
+
+                    <div class="appearance-settings-grid">
+                        <!-- Theme Presets -->
+                        <div class="glass-card appearance-section">
+                            <h3>1. Mode & Preset Tema</h3>
+                            <div class="theme-presets-grid">
+                                <button class="theme-preset-card active" data-preset="night-ink" id="presetNightInk">
+                                    <div class="preset-preview bg-preset-night-ink"></div>
+                                    <span>Night Ink (Cozy)</span>
+                                </button>
+                                <button class="theme-preset-card" data-preset="parchment-paper" id="presetParchmentPaper">
+                                    <div class="preset-preview bg-preset-parchment-paper"></div>
+                                    <span>Parchment Paper</span>
+                                </button>
+                                <button class="theme-preset-card" data-preset="typewriter-vintage" id="presetTypewriterVintage">
+                                    <div class="preset-preview bg-preset-typewriter-vintage"></div>
+                                    <span>Typewriter Vintage</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Accent Color Picker -->
+                        <div class="glass-card appearance-section">
+                            <h3>2. Warna Aksen Utama</h3>
+                            <div class="accent-color-picker" id="accentColorPicker">
+                                <button class="accent-color-dot active" data-color="#a855f7" style="background-color: #a855f7;" title="Purple"></button>
+                                <button class="accent-color-dot" data-color="#3b82f6" style="background-color: #3b82f6;" title="Blue"></button>
+                                <button class="accent-color-dot" data-color="#10b981" style="background-color: #10b981;" title="Emerald"></button>
+                                <button class="accent-color-dot" data-color="#f59e0b" style="background-color: #f59e0b;" title="Amber"></button>
+                                <button class="accent-color-dot" data-color="#ef4444" style="background-color: #ef4444;" title="Red"></button>
+                                <button class="accent-color-dot" data-color="#ec4899" style="background-color: #ec4899;" title="Pink"></button>
+                            </div>
+                        </div>
+
+                        <!-- Typography Customizer -->
+                        <div class="glass-card appearance-section">
+                            <h3>3. Pilihan Tipografi (Font)</h3>
+                            <div class="form-group font-selectors">
+                                <label for="fontSelect">Font Judul & Antarmuka</label>
+                                <select id="fontSelect">
+                                    <option value="'Lora', serif">Lora (Cozy Serif / Utama)</option>
+                                    <option value="'Playfair Display', serif">Playfair Display (Klasik & Elegan)</option>
+                                    <option value="'Outfit', sans-serif">Outfit (Modern / Bulat)</option>
+                                    <option value="'Courier New', monospace">Courier New (Mesin Ketik / Retro)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Layout Grid Switcher -->
+                        <div class="glass-card appearance-section">
+                            <h3>4. Tata Letak Grid Cerita</h3>
+                            <div class="layout-selectors-grid">
+                                <button class="layout-select-card active" data-layout="grid" id="layoutGridBtn">
+                                    <i data-lucide="layout-grid"></i>
+                                    <span>Responsive Grid</span>
+                                </button>
+                                <button class="layout-select-card" data-layout="list" id="layoutListBtn">
+                                    <i data-lucide="rows"></i>
+                                    <span>Single Column List</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Hero Text Editor -->
+                        <div class="glass-card appearance-section span-2">
+                            <h3>5. Ubah Teks Banner Utama</h3>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="heroTitleInput">Judul Utama</label>
+                                    <input type="text" id="heroTitleInput" placeholder="Ubah judul banner utama...">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="heroSubtitleInput">Sub-judul / Deskripsi</label>
+                                    <textarea id="heroSubtitleInput" rows="2" placeholder="Ubah sub-judul banner..."></textarea>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" id="saveHeroTextBtn">
+                                <i data-lucide="check"></i> Simpan Teks Banner
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Article Editor Modal (Popup) -->
+    <div class="modal-overlay" id="articleEditorOverlay" style="z-index: 1100;">
+        <div class="editor-popup glass-card">
+            <div class="editor-header">
+                <h3 id="editorPopupTitle">Tulis Cerita Baru</h3>
+                <button class="btn-icon" id="closeEditorPopupBtn" title="Tutup Editor">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="articleForm" class="editor-form">
+                <input type="hidden" id="editPostId" value="">
+                
+                <div class="form-group">
+                    <label for="postTitle">Judul Cerita <span class="required">*</span></label>
+                    <input type="text" id="postTitle" placeholder="Ketikkan judul cerita yang menarik..." required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="postCategory">Kategori <span class="required">*</span></label>
+                        <input type="text" id="postCategory" list="categoryDatalist" placeholder="Pilih atau ketik kategori..." required>
+                        <datalist id="categoryDatalist"></datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="postTags">Tag <small>(pisahkan dengan koma)</small></label>
+                        <input type="text" id="postTags" placeholder="Contoh: Diary, Melangkah, Rasa">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="postCoverFile">Gambar Cover <small>(Opsional - Upload Foto)</small></label>
+                    <input type="file" id="postCoverFile" accept="image/*" class="form-control">
+                    <div style="margin-top: 0.5rem; text-align: center; display: flex; justify-content: center;">
+                        <div style="position: relative; display: inline-block;">
+                            <img id="editorCoverPreview" src="" alt="Preview Cover" style="max-height: 120px; border-radius: 6px; display: none; border: 1px solid var(--border-glass);">
+                            <button type="button" id="btnRemoveCover" title="Hapus Cover" style="position: absolute; top: -8px; right: -8px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 10; padding: 0;">
+                                <i data-lucide="x" style="width: 12px; height: 12px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Konten Cerita <span class="required">*</span></label>
+                    
+                    <!-- WYSIWYG Editor Toolbar -->
+                    <div class="wysiwyg-toolbar" id="editorToolbar">
+                        <button type="button" class="toolbar-btn" data-command="bold" title="Tebal (Ctrl+B)"><i data-lucide="bold"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="italic" title="Miring (Ctrl+I)"><i data-lucide="italic"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="underline" title="Garis Bawah (Ctrl+U)"><i data-lucide="underline"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="strikeThrough" title="Coret Tengah"><i data-lucide="strikethrough"></i></button>
+                        <span class="toolbar-separator"></span>
+                        
+                        <!-- Heading Dropdown Selection (H1 - H6) -->
+                        <select class="toolbar-select" id="editorHeadingSelect" title="Gaya Paragraf/Heading">
+                            <option value="p">Paragraf</option>
+                            <option value="h1">Heading 1</option>
+                            <option value="h2">Heading 2</option>
+                            <option value="h3">Heading 3</option>
+                            <option value="h4">Heading 4</option>
+                            <option value="h5">Heading 5</option>
+                            <option value="h6">Heading 6</option>
+                        </select>
+                        
+                        <button type="button" class="toolbar-btn" data-command="formatBlock" data-value="blockquote" title="Kutipan Cerita"><i data-lucide="quote"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="insertHorizontalRule" title="Garis Pembatas"><i data-lucide="minus"></i></button>
+                        <span class="toolbar-separator"></span>
+                        <button type="button" class="toolbar-btn" data-command="justifyLeft" title="Rata Kiri"><i data-lucide="align-left"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="justifyCenter" title="Rata Tengah"><i data-lucide="align-center"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="justifyRight" title="Rata Kanan"><i data-lucide="align-right"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="justifyFull" title="Rata Kanan Kiri"><i data-lucide="align-justify"></i></button>
+                        <span class="toolbar-separator"></span>
+                        <button type="button" class="toolbar-btn" data-command="insertUnorderedList" title="Daftar Bulat"><i data-lucide="list"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="insertOrderedList" title="Daftar Angka"><i data-lucide="list-ordered"></i></button>
+                        <span class="toolbar-separator"></span>
+                        <button type="button" class="toolbar-btn" data-command="undo" title="Batalkan (Ctrl+Z)"><i data-lucide="undo"></i></button>
+                        <button type="button" class="toolbar-btn" data-command="redo" title="Ulangi (Ctrl+Y)"><i data-lucide="redo"></i></button>
+                        <span class="toolbar-separator"></span>
+                        <button type="button" class="toolbar-btn" data-command="removeFormat" title="Hapus Format"><i data-lucide="trash-2"></i></button>
+                    </div>
+
+                    <!-- WYSIWYG Editor Body -->
+                    <div id="editorContent" contenteditable="true" class="wysiwyg-editor" placeholder="Tuliskan cerita atau catatan harian lengkap Anda di sini..."></div>
+                </div>
+
+                <div class="editor-footer">
+                    <button type="button" class="btn btn-secondary" id="btnCancelPost">Batal</button>
+                    <button type="submit" class="btn btn-primary" id="btnSavePost">
+                        <i data-lucide="save"></i> Simpan Cerita
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Login Screen Overlay -->
+    <div class="modal-overlay" id="adminLoginOverlay" style="z-index: 2000;">
+        <div class="glass-card login-popup">
+            <div class="login-header">
+                <h2>nightyvity Admin</h2>
+                <p>Silakan masuk untuk mengelola blog Danang Cruel Story</p>
+            </div>
+            <form id="adminLoginForm" class="login-form">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Ketik username..." required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Kata Sandi</label>
+                    <input type="password" id="loginPassword" placeholder="Ketik kata sandi..." required>
+                </div>
+                <div class="login-error" id="loginErrorMsg" style="display: none; color: #ef4444; font-size: 0.85rem; margin-bottom: 1rem; text-align: center;">
+                    Username atau password salah!
+                </div>
+                <button type="submit" class="btn btn-primary w-full" id="btnLoginSubmit">
+                    <i data-lucide="lock"></i> Masuk Admin
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModalOverlay" style="z-index: 3000;">
+        <div class="modal-content glass-card" style="max-width: 400px; text-align: center; padding: 2.25rem 2rem 2rem 2rem; border-radius: 16px;">
+            <div style="background: rgba(239, 68, 68, 0.15); color: #ef4444; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+                <i data-lucide="alert-triangle" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3 id="confirmModalTitle" style="font-size: 1.35rem; font-weight: 700; margin-bottom: 0.75rem;">Konfirmasi Hapus</h3>
+            <p id="confirmModalMessage" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.75rem;"></p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-secondary" id="btnConfirmCancel" style="flex: 1;">Batal</button>
+                <button class="btn btn-danger" id="btnConfirmProceed" style="flex: 1; background: #ef4444; border-color: #ef4444; color: white;">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Application Script -->
+    <script src="app.js?v=11"></script>
+</body>
+</html>
