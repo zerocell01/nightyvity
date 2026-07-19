@@ -204,16 +204,21 @@ function handleAdminLogin(e) {
 }
 
 function handleAdminLogout() {
-    if (confirm("Apakah Anda yakin ingin keluar dari akun Admin?")) {
-        sessionStorage.removeItem("admin_logged_in");
-        showToast("Anda telah keluar dari akun Admin.", "error");
-        
-        // Close dashboard overlay
-        closeDashboard();
-        
-        // Reload is cleanest to reset states
-        window.location.reload();
-    }
+    showConfirmModal(
+        "Keluar Admin",
+        "Apakah Anda yakin ingin keluar dari akun Admin?",
+        () => {
+            sessionStorage.removeItem("admin_logged_in");
+            showToast("Anda telah keluar dari akun Admin.", "error");
+            
+            // Close dashboard overlay
+            closeDashboard();
+            
+            // Reload is cleanest to reset states
+            window.location.reload();
+        },
+        "Keluar"
+    );
 }
 
 // Initialize Application
@@ -1288,15 +1293,17 @@ function saveMenu(e) {
 
 let confirmProceedCallback = null;
 
-function showConfirmModal(title, message, onProceed) {
+function showConfirmModal(title, message, onProceed, proceedText = "Hapus") {
     const modal = document.getElementById("confirmModalOverlay");
     const titleEl = document.getElementById("confirmModalTitle");
     const msgEl = document.getElementById("confirmModalMessage");
+    const proceedBtn = document.getElementById("btnConfirmProceed");
     
-    if (!modal || !titleEl || !msgEl) return;
+    if (!modal || !titleEl || !msgEl || !proceedBtn) return;
     
     titleEl.innerText = title;
     msgEl.innerText = message;
+    proceedBtn.innerText = proceedText;
     confirmProceedCallback = onProceed;
     
     modal.classList.add("active");
