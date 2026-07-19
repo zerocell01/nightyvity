@@ -1505,30 +1505,81 @@ code {
     /* Dashboard Split layout becomes stacked */
     .dashboard-panel {
         flex-direction: column;
-        height: 95vh;
-        max-height: 95vh;
+        height: 96vh;
+        max-height: 96vh;
         border-radius: var(--radius-md);
     }
     .dashboard-sidebar {
         width: 100%;
         border-right: none;
         border-bottom: 1px solid var(--border-glass);
-        padding: 1rem 1.5rem;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
+        padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
     }
     .sidebar-header {
         margin-bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
     }
     .sidebar-header h3 {
-        font-size: 1rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    .mobile-dashboard-close {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-glass);
+        color: var(--text-main);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
     }
     .sidebar-nav {
-        display: none; /* Hide standard sidebar buttons in mobile */
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto;
+        gap: 0.5rem;
+        padding-bottom: 0.25rem;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .sidebar-nav::-webkit-scrollbar {
+        display: none;
+    }
+    .sidebar-nav-btn {
+        flex-shrink: 0;
+        padding: 0.5rem 0.85rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        border-radius: var(--radius-sm);
+        justify-content: center;
     }
     .sidebar-footer {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0.5rem;
         margin-top: 0;
+        width: 100%;
+    }
+    .sidebar-footer .btn {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
     }
     
     /* We can create a mobile select dropdown or just simplified icons in mobile dashboard */
